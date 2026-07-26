@@ -1,0 +1,6 @@
+@AiProjectAssistant.Api_HostAddress = http://localhost:5020
+
+GET {{AiProjectAssistant.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
