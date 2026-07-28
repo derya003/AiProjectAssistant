@@ -26,3 +26,83 @@ Her proje için veritabanında farklı bir sistem promptu tanımlanabilir. Kulla
 - 🔄 Genişletilebilir AI Provider Yapısı
 
 ---
+## 🔄 Proje Akışı
+
+```text
+Kullanıcı
+    │
+    ▼
+POST /api/Auth/login
+    │
+    ▼
+JWT Token
+    │
+    ▼
+POST /api/Ai/ask
+    │
+    ▼
+AiController
+    │
+    ▼
+AiService
+    │
+    ▼
+ProjectRepository
+    │
+    ▼
+SQL Server
+(Proje Promptu)
+    │
+    ▼
+Claude API
+    │
+    ▼
+Yapay Zekâ Cevabı
+    │
+    ▼
+Kullanıcı
+```
+## 🏗 Katmanlı Mimari
+
+Proje SOLID prensipleri dikkate alınarak katmanlı mimariye uygun şekilde geliştirilmiştir.
+
+```text
+Controllers
+     │
+     ▼
+Services
+     │
+     ▼
+Repositories
+     │
+     ▼
+Entity Framework Core
+     │
+     ▼
+SQL Server
+```
+
+Her katmanın yalnızca kendi sorumluluğunu yerine getirmesi hedeflenmiştir. Böylece uygulama daha okunabilir, sürdürülebilir ve geliştirilebilir hale gelmiştir.
+
+## 📁 Proje Yapısı
+
+```text
+AiProjectAssistant
+│
+├── src
+│   └── AiProjectAssistant.Api
+│       ├── Controllers
+│       ├── Data
+│       ├── DTOs
+│       ├── Entities
+│       ├── Extensions
+│       ├── Middleware
+│       ├── Options
+│       ├── Repositories
+│       ├── Services
+│       ├── Program.cs
+│       └── appsettings.json
+│
+├── README.md
+└── .gitignore
+```
