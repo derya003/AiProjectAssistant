@@ -1,4 +1,35 @@
+<p align="center">
+    <img src="assets/images/banner.png" alt="AI Destekli Proje Asistanı API Banner" width="100%">
+</p>
+
 # 🤖 AI Destekli Proje Asistanı API
+
+<p align="center">
+ASP.NET Core Web API • JWT Authentication • SQL Server • Claude AI
+</p>
+
+![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=.net)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-Web_API-512BD4?logo=dotnet)
+![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-black?logo=jsonwebtokens)
+![Claude AI](https://img.shields.io/badge/Claude-AI-orange)
+
+
+## 📑 İçindekiler
+
+- [📖 Proje Hakkında](#-proje-hakkında)
+- [🚀 Temel Özellikler](#-temel-özellikler)
+- [🔄 Proje Akışı](#-proje-akışı)
+- [🏗 Katmanlı Mimari](#-katmanlı-mimari)
+- [📁 Proje Yapısı](#-proje-yapısı)
+- [📷 Swagger Arayüzü](#-swagger-arayüzü)
+- [🔐 Kullanıcı Girişi](#-kullanıcı-girişi)
+- [🤖 Yapay Zekâ Sorgusu](#-yapay-zekâ-sorgusu)
+- [🏛 Sistem Mimarisi](#-sistem-mimarisi)
+- [📊 Veritabanı Tasarımı](#-veritabanı-tasarımı)
+- [🔒 Güvenlik](#-güvenlik)
+- [👨‍💻 Geliştirici](#-geliştirici)
+
 
 > ASP.NET Core Web API kullanılarak geliştirilen, JWT Authentication ile korunan ve Claude AI entegrasyonuna sahip katmanlı mimariye uygun örnek bir projedir.
 
@@ -26,6 +57,7 @@ Her proje için veritabanında farklı bir sistem promptu tanımlanabilir. Kulla
 - 🔄 Genişletilebilir AI Provider Yapısı
 
 ---
+
 ## 🔄 Proje Akışı
 
 ```text
@@ -62,6 +94,9 @@ Yapay Zekâ Cevabı
     ▼
 Kullanıcı
 ```
+
+---
+
 ## 🏗 Katmanlı Mimari
 
 Proje SOLID prensipleri dikkate alınarak katmanlı mimariye uygun şekilde geliştirilmiştir.
@@ -83,6 +118,8 @@ SQL Server
 ```
 
 Her katmanın yalnızca kendi sorumluluğunu yerine getirmesi hedeflenmiştir. Böylece uygulama daha okunabilir, sürdürülebilir ve geliştirilebilir hale gelmiştir.
+
+---
 
 ## 📁 Proje Yapısı
 
@@ -106,3 +143,128 @@ AiProjectAssistant
 ├── README.md
 └── .gitignore
 ```
+
+---
+
+## 📷 Swagger Arayüzü
+
+API endpointleri Swagger üzerinden kolayca görüntülenebilir ve test edilebilir. Projede iki temel endpoint bulunmaktadır:
+
+- **POST /api/Auth/login** → Kullanıcı girişi yaparak JWT Token oluşturur.
+- **POST /api/Ai/ask** → Kimliği doğrulanmış kullanıcının yapay zekâya soru göndermesini sağlar.
+
+<p align="center">
+    <img src="assets/images/swagger-home.png" alt="Swagger Ana Sayfa" width="900">
+</p>
+
+---
+
+## 🔐 Kullanıcı Girişi
+
+Kullanıcı, e-posta ve şifre bilgileriyle sisteme giriş yapar. Bilgiler doğrulandığında API tarafından bir JWT (JSON Web Token) oluşturulur. Bu token, korumalı endpointlere erişim sağlamak için `Authorization` başlığı ile gönderilir.
+
+<p align="center">
+    <img src="assets/images/login-success.png" alt="Başarılı kullanıcı girişi" width="900">
+</p>
+
+---
+
+## 🤖 Yapay Zekâ Sorgusu
+
+Kimliği doğrulanmış kullanıcı, seçtiği proje kapsamında yapay zekâya soru gönderebilir. API, ilgili projenin sistem promptunu veritabanından okur ve kullanıcı sorusuyla birlikte Claude API'ye iletir. Üretilen cevap kullanıcıya JSON formatında döndürülür.
+
+<p align="center">
+    <img src="assets/images/ai-success.png" alt="Yapay Zekâ Sorgusu" width="900">
+</p>
+
+---
+
+## 🏛 Sistem Mimarisi
+
+Aşağıdaki diyagram, kullanıcı isteğinin sistem içerisinde nasıl işlendiğini göstermektedir.
+
+```mermaid
+flowchart TD
+
+A[Kullanıcı]
+B[Swagger / HTTP Request]
+C[AuthController<br/>AiController]
+D[AuthService<br/>AiService]
+E[UserRepository]
+F[ProjectRepository]
+G[(SQL Server)]
+H[Claude API]
+I[API Response]
+
+A --> B
+B --> C
+C --> D
+D --> E
+D --> F
+E --> G
+F --> G
+D --> H
+G --> D
+H --> D
+D --> I
+I --> A
+```
+
+---
+
+## 📊 Veritabanı Tasarımı
+
+Projede **SQL Server** veritabanı kullanılmaktadır. Kullanıcı bilgileri ve yapay zekâ projelerine ait sistem promptları iki temel tablo üzerinde tutulmaktadır.
+
+### Users
+
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| Id | int | Kullanıcı kimliği |
+| Email | nvarchar | Kullanıcı e-posta adresi |
+| PasswordHash | nvarchar | BCrypt ile şifrelenmiş parola |
+
+### Projects
+
+| Alan | Tip | Açıklama |
+|------|-----|----------|
+| Id | int | Proje kimliği |
+| ProjectName | nvarchar | Proje adı |
+| Prompt | nvarchar(max) | Yapay zekâ için kullanılan sistem promptu |
+
+#### Örnek Kayıtlar
+
+Uygulamanın test edilmesi amacıyla veritabanına örnek kullanıcılar ve farklı uzmanlık alanlarını temsil eden proje kayıtları eklenmiştir. Her proje, kendine ait bir sistem promptu ile yapay zekânın farklı konularda cevap üretmesini sağlamaktadır.
+
+**Projects Tablosu**
+
+<p align="center">
+    <img src="assets/images/projects-table.png" alt="Projects Tablosu" width="900">
+</p>
+
+**Users Tablosu**
+
+<p align="center">
+    <img src="assets/images/users-table.png" alt="Users Tablosu" width="900">
+</p>
+
+---
+
+## 🔒 Güvenlik
+
+Projede temel güvenlik önlemleri uygulanmıştır.
+
+- Kullanıcı parolaları **BCrypt** algoritması ile hash'lenerek saklanmaktadır.
+- Kimlik doğrulama işlemleri **JWT Bearer Authentication** kullanılarak gerçekleştirilmektedir.
+- Korumalı endpointlere yalnızca doğrulanmış kullanıcılar erişebilmektedir.
+- Hassas bilgiler (Connection String, JWT Key ve Claude API Key) **User Secrets** kullanılarak kaynak kodundan ayrı tutulmaktadır.
+---
+## 👨‍💻 Geliştirici
+
+Bu proje, staj süreci kapsamında ASP.NET Core Web API, SQL Server, JWT Authentication ve Claude AI entegrasyonu konularında deneyim kazanmak amacıyla geliştirilmiştir.
+
+**Geliştirici:** Derya Durgun
+
+---
+
+⭐ Bu proje eğitim ve staj çalışması kapsamında geliştirilmiştir.
