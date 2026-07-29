@@ -259,6 +259,77 @@ Projede temel güvenlik önlemleri uygulanmıştır.
 - Korumalı endpointlere yalnızca doğrulanmış kullanıcılar erişebilmektedir.
 - Hassas bilgiler (Connection String, JWT Key ve Claude API Key) **User Secrets** kullanılarak kaynak kodundan ayrı tutulmaktadır.
 ---
+
+## ⚙️ Kurulum
+
+### 1. Projeyi klonlayın
+
+```bash
+git clone https://github.com/derya003/AiProjectAssistant.git
+```
+
+### 2. Proje klasörüne geçin
+
+```bash
+cd AiProjectAssistant
+```
+
+### 3. Gerekli paketleri yükleyin
+
+Projeyi Visual Studio 2022 veya .NET CLI ile açabilirsiniz.
+
+### 4. Veritabanı bağlantısını yapılandırın
+
+`appsettings.json` dosyasında bulunan SQL Server bağlantı bilgisini kendi veritabanınıza göre düzenleyin.
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=.;Database=AiProjectAssistantDb;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+### 5. Veritabanını oluşturun
+
+```bash
+dotnet ef database update
+```
+
+### 6. Uygulamayı çalıştırın
+
+```bash
+dotnet run
+```
+
+veya Visual Studio üzerinden **Start** butonuna basarak çalıştırabilirsiniz.
+
+### 7. Swagger arayüzüne erişin
+
+Uygulama çalıştıktan sonra aşağıdaki adrese giderek API'yi test edebilirsiniz.
+
+```
+https://localhost:xxxx/swagger/index.html
+```
+
+> Port numarası Visual Studio tarafından otomatik olarak belirlenmektedir.
+
+## 🌐 Canlı Demo
+
+Uygulamanın yayınlanmış sürümüne aşağıdaki adresten erişebilirsiniz.
+
+```
+http://aiprojeassistant.runasp.net/swagger/index.html
+```
+## 🔑 Test Kullanıcısı
+
+Swagger üzerinden aşağıdaki bilgiler ile giriş yapabilirsiniz.
+
+| Alan | Değer |
+|------|--------|
+| E-posta | derya@gmail.com |
+| Şifre | 123456 |
+
+Başarılı girişten sonra dönen JWT Token, Swagger üzerindeki **Authorize** bölümüne eklenerek korumalı endpointler test edilebilir.  
+
 ## 👨‍💻 Geliştirici
 
 Bu proje, staj süreci kapsamında ASP.NET Core Web API, SQL Server, JWT Authentication ve Claude AI entegrasyonu konularında deneyim kazanmak amacıyla geliştirilmiştir.
